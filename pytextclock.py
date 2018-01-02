@@ -33,15 +33,6 @@ def get_text_time(hour, minute):
 
 # HAUPTPROGRAMM 
 
-# Teste get_text_time(hour, minute)
-assert(get_text_time(00, 00) == "null")
-assert(get_text_time(11, 55) == "fünf vor zwölf")
-assert(get_text_time(11, 59) == "fünf vor zwölf")
-assert(get_text_time(12, 0)  == "zwölf")
-assert(get_text_time(12, 4)  == "zwölf")
-assert(get_text_time(12, 5)  == "fünf nach zwölf")
-
-
 # Echte/Reale Zeit
 # Hole aktuelle, lokale Zeit
 #zeit=time.localtime()
