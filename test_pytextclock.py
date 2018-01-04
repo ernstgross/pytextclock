@@ -9,8 +9,9 @@ class TestPytextclock(unittest.TestCase):
         pass
 
     def test_get_text_time(self):
-        self.assertEqual(get_text_time(00, 00), "null")
-        self.assertEqual(get_text_time(00, 00), "null")
+        self.assertEqual(get_text_time( 0,  0), "null")
+        self.assertEqual(get_text_time( 0,  4), "null")
+        self.assertEqual(get_text_time( 0,  5), "fünf nach null")
         self.assertEqual(get_text_time(11, 55), "fünf vor zwölf")
         self.assertEqual(get_text_time(11, 59), "fünf vor zwölf")
         self.assertEqual(get_text_time(12,  0), "zwölf")
