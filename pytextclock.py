@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
-# Importiere Zeit-Modul
+# Import the python time module
 import time
 
-# Definiere "dictionary" für die "Text-Uhr"
+# Define "dictionary" for the "Text-Clock"
 dict_text_clock={}
 
 def init():
@@ -11,7 +11,7 @@ def init():
     and read the key-value-pair to store the clock text into the ditctionary
     dict_text_clock.
     """
-    with open("Uhrprojekt_Zeitanzeige_Zeitansage.csv", encoding="utf-8") as f:
+    with open("textclock_timetext_DE_de.csv", encoding="utf-8") as f:
         for line in f:
             line = line.replace("\n", "")
             (key,val) = line.split(",")
