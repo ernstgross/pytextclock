@@ -5,11 +5,10 @@ import time
 
 # Definiere "dictionary" für die "Text-Uhr"
 dict_text_clock={}
-    
 
 def init():
-    """Öffnet die Datei Uhrprojekt_Zeitanzeige_Zeitansage.csv
-    und liest den Key und den Value aus und speichert diese im Ditctionary
+    """Opens the file Uhrprojekt_Zeitanzeige_Zeitansage.csv
+    and read the key-value-pair to store the clock text into the ditctionary
     dict_text_clock.
     """
     with open("Uhrprojekt_Zeitanzeige_Zeitansage.csv", encoding="utf-8") as f:
@@ -23,45 +22,44 @@ def get_text_time(hour, minute):
     hour:    hours in range 0..23
     minutes: minutes in range 0..59 """
 
-    # Erstelle den "key". Beachte dabei die führenden Nullen für Stunden und Minuten.
-    hour   = hour%24    # Damit können wir "fehlerhafte" Eingaben über 23 Stunden behandeln.
-    minute = minute%60  # Damit können wir "fehlerhafte" Eingaben über 59 Minuten behandeln.
-    minute = minute - minute%5 # Damit regeln wir den Fünf-Minuten-Takt
+    # Build the "key". Take care abut the pre-leading zeros for the hours and minutes.
+    hour   = hour%24    # Use modulo to accept mistaken inputs above 23 hours.
+    minute = minute%60  # Use modulo to accept mistaken inputs above 59 minutes.
+    minute = minute - minute%5 # This ensures the five-minutes time-step.
     dict_text_clock_key = "{0:02d}:{1:02d}".format(hour, minute)
     #print(dict_text_clock_key
 
-    # Gebe den Text der Uhrzeit aus dem Dictionary zurück.
+    # Return the clock text from the dictionary.
     return dict_text_clock[dict_text_clock_key]
 
 
-# HAUPTPROGRAMM 
+# MAIN PROGRAN
 
-def hautprogramm():
-    
-    # Initialisiere dictionary
+def main():
+    """ Print the actual time to the console output."""
+    # Initialize dictionary
     init()
 
-    # Eine Schleife welche die Ausgabe der aktuellen Zeit für immer wiederholt.
+    # This is the endless loop to print out the actual time.
     while True:
-        # Echte/Reale Zeit
-        # Hole aktuelle, lokale Zeit
-        zeit=time.localtime()
+        # Get the current, real time for the local timezone.
+        currentLocalTime=time.localtime()
 
-        # Gebe Zeit aus
-        print(get_text_time(zeit.tm_hour, zeit.tm_min))
+        # Print the  current local time.
+        print(get_text_time(currentLocalTime.tm_hour, currentLocalTime.tm_min))
 
-        # Berechne Zeit bis zum nächsten Aufwachen.
-        delta_minuten_schlafen  = 4 - zeit.tm_min%5
-        delta_sekunden_schlafen = 60 - zeit.tm_sec
-        delta_sekunden_gesamt_schlafen = delta_minuten_schlafen*60 + delta_sekunden_schlafen
+        # Calculate the duration until the next 'Bang' aligned to five minutes steps.
+        delta_minutes_to_sleep =  4 - currentLocalTime.tm_min%5
+        delta_seconds_to_sleep = 60 - currentLocalTime.tm_sec
+        delta_seconds_sum_to_sleep = delta_minutes_to_sleep*60 + delta_seconds_to_sleep
 
-        # Debug-Info als Test (kann später auskommentiert werden)
-        print("\t\tAktuelle Zeit: " + time.asctime())
-        print("\t\tIch schlafe "+str(delta_minuten_schlafen)+" Minuten und "+str(delta_sekunden_schlafen)+" Sekunden (insgesamt "+ str(delta_sekunden_gesamt_schlafen)+" Sekunden) bis zum nächsten 'Gong'")
+        # Debug-Information for test (can be uncommented for final release.)
+        print("\t\tCurrent local time: " + time.asctime())
+        print("\t\tI will sleep for "+str(delta_minutes_to_sleep)+" minutes and "+str(delta_seconds_to_sleep)+" seconds (in sum "+ str(delta_seconds_sum_to_sleep)+" seconds) until the next 'Bang'")
 
-        # Schlafe bis zum nächsten "Gong"
-        time.sleep(delta_sekunden_gesamt_schlafen)
-        
-        
+        # Sleep until the next "Bang"
+        time.sleep(delta_seconds_sum_to_sleep)
+
+# If this module is used as a standalone application
 if __name__ == '__main__':
-    hautprogramm()
+    main()

@@ -8,8 +8,8 @@ class TestPytextclock(unittest.TestCase):
 
     def setUp(self):
         pytextclock.init()
-        pass        
-    
+        pass
+
     def test_get_text_time(self):
         self.assertEqual(get_text_time( 0,  0), "null")
         self.assertEqual(get_text_time( 0,  4), "null")
@@ -31,6 +31,6 @@ class TestPytextclock(unittest.TestCase):
         self.assertEqual(get_text_time(25, 60), "eins")
         self.assertEqual(get_text_time(26, 70), "zehn nach zwei")
         self.assertEqual(get_text_time(26, 71), "zehn nach zwei")
-        
+
 if __name__ == '__main__':
     unittest.main()
