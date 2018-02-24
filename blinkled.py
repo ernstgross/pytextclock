@@ -32,6 +32,7 @@ print("We run the test sequence forward and backward over all 20 LED's for 10 ti
 GPIO.setmode(GPIO.BOARD)
 
 out_pin_list = [3, 5, 7, 8, 10, 11, 12, 13, 15, 16, 18, 22, 29, 31, 32, 33, 35, 36, 37, 38]
+out_pin_list_len = len(out_pin_list)
 
 for pin in out_pin_list:
     GPIO.setup ( pin, GPIO.OUT)
@@ -43,16 +44,19 @@ pause = 0.1
 
 for x in range(10):
     print("Sequence", x)
-    for index in range(20):
-        GPIO.output(out_pin_list[index],GPIO.HIGH)
-        GPIO.output(out_pin_list[index-1],GPIO.LOW)
+
+    # Set every single LED on and of in a forward direction.
+    for index in range(out_pin_list_len):
+        GPIO.output(out_pin_list[index  ],GPIO.HIGH)
+        GPIO.output(out_pin_list[index-1],GPIO.LOW )
         time.sleep(pause)
 
     time.sleep(durationOn)
 
-    for index in range(20):
-        nextLed = 19-index
-        prevLed = (19-index+1)%20
+    # Set every single LED on and of in a backward direction.
+    for index in range(out_pin_list_len):
+        nextLed = (out_pin_list_len - 1) - index
+        prevLed = (out_pin_list_len - index) % out_pin_list_len
         #print(index, nextLed, prevLed)
         GPIO.output(out_pin_list[nextLed],GPIO.HIGH)
         GPIO.output(out_pin_list[prevLed],GPIO.LOW)
