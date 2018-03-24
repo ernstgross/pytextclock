@@ -29,7 +29,6 @@ PIN 39   GND           used as GND        PIN 40   GPIO-21        not used
 __version__    = '0.1.1'
 __author__     = 'Ernst Gross'
 __email__      = "ernst@grossmusik.de"
-__maintainer__ = "Ernst Gross"
 __copyright__  = "Copyright 2018, The pyclocktext project"
 __credits__    = ["Joachim Gross","Johannes Gross"]
 __license__    = "MIT"
