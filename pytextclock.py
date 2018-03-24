@@ -2,12 +2,15 @@
 
 # Import the python time module
 import time
+import blinkled
 
 # Define "dictionary" for the "Text-Clock"
 dict_time_to_text = {}
 dict_text_hours_to_led = {}
 dict_text_minutes_to_led = {}
 dict_text_minutes_separator_to_led = {}
+
+base_directory = "/home/pi/github/pytextclock/"
 
 def init_text_to_led():
     """Opens the files
@@ -27,7 +30,7 @@ def init_text_to_led():
     neun   [15] zehn [16] elf [17]
     zwölf  [18] null [19]
     """
-    with open("textclock_text-hours_to_led_DE-de.csv", encoding="utf-8") as f:
+    with open(base_directory + "textclock_text-hours_to_led_DE-de.csv", encoding="utf-8") as f:
         for line in f:
             line = line.replace("\n", "")
             line = line.replace(" ", "")
@@ -35,7 +38,7 @@ def init_text_to_led():
             dict_text_hours_to_led[key] = int(val)
             #print(key,val)
 
-    with open("textclock_text-minutes_to_led_DE-de.csv", encoding="utf-8") as f:
+    with open(base_directory + "textclock_text-minutes_to_led_DE-de.csv", encoding="utf-8") as f:
         for line in f:
             line = line.replace("\n", "")
             line = line.replace(" ", "")
@@ -43,7 +46,7 @@ def init_text_to_led():
             dict_text_minutes_to_led[key] = int(val)
             #print(key,val)
     
-    with open("textclock_text-minutes-separator_to_led_DE-de.csv", encoding="utf-8") as f:
+    with open(base_directory + "textclock_text-minutes-separator_to_led_DE-de.csv", encoding="utf-8") as f:
         for line in f:
             line = line.replace("\n", "")
             line = line.replace(" ", "")
@@ -56,7 +59,7 @@ def init_time_to_text():
     and read the key-value-pair to store the clock text into the ditctionary
     dict_key_time_to_val_text.
     """
-    with open("textclock_timetext_DE-de.csv", encoding="utf-8") as f:
+    with open(base_directory + "textclock_timetext_DE-de.csv", encoding="utf-8") as f:
         for line in f:
             line = line.replace("\n", "")
             (key,val) = line.split(",")
@@ -144,7 +147,7 @@ def get_text_time(hour, minute):
 
     # Return the clock text from the dictionary.
     return dict_time_to_text[dict_key_time_to_val_text_key]
-
+ 
 
 # MAIN PROGRAN
 
@@ -152,6 +155,7 @@ def main():
     """ Print the actual time to the console output."""
     # Initialize dictionary
     init()
+    blinkled.init_out_pin_list()
 
     # This is the endless loop to print out the actual time.
     while True:
@@ -165,6 +169,7 @@ def main():
         # Print the used LED's for the current local.
         clock_led_ids = get_leds_from_text(clocktext)
         print("LED's:",clock_led_ids)
+        blinkled.set_clock_leds(clock_led_ids)
 
         # Calculate the duration until the next 'Bang' occurs every five minutes.
         delta_minutes_to_sleep =  4 - currentLocalTime.tm_min%5
